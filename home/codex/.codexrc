@@ -1,0 +1,6 @@
+export PATH="$HOME/.local/bin:$PATH"
+
+eval "$("$HOME/.local/bin/mise" activate bash)"
+
+export DOCKER_HOST="unix:///run/user/$UID/docker.sock"
+export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
