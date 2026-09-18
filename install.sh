@@ -9,10 +9,12 @@ readonly REPO_ROOT
 sudo install -d -o root -g root -m 0755 -- /etc
 sudo install -d -o root -g root -m 0755 -- /etc/apt
 sudo install -d -o root -g root -m 0755 -- /etc/apt/apt.conf.d
+sudo install -d -o root -g root -m 0755 -- /etc/apparmor.d
 sudo install -d -o root -g root -m 0755 -- /etc/ssh
 sudo install -d -o root -g root -m 0755 -- /etc/ssh/sshd_config.d
 
 sudo install -o root -g root -m 0644 -t /etc/apt/apt.conf.d -- "$REPO_ROOT/etc/apt/apt.conf.d/"*
+sudo install -o root -g root -m 0644 -- "$REPO_ROOT/etc/apparmor.d/chrome-dev-builds" /etc/apparmor.d/chrome-dev-builds
 sudo install -o root -g root -m 0644 -t /etc/ssh/sshd_config.d -- "$REPO_ROOT/etc/ssh/sshd_config.d/"*
 
 sudo install -d -o codex -g codex -m 0755 -- /home/codex

@@ -8,9 +8,8 @@ Docker, or Chromium. User tools are installed separately by
 ## Overlay
 
 The configuration files and directories mirror their destinations from the
-target filesystem root. For example,
-`etc/ssh/sshd_config.d/00-hardening.conf` is installed as
-`/etc/ssh/sshd_config.d/00-hardening.conf`.
+target filesystem root. For example, `etc/ssh/sshd_config.d/00-hardening.conf`
+is installed as `/etc/ssh/sshd_config.d/00-hardening.conf`.
 
 ## Prerequisites
 
@@ -77,3 +76,35 @@ Validate and reload only after the overlay is installed:
 sudo sshd -t
 sudo systemctl reload ssh
 ```
+
+## Chromium
+
+Chromium requires the following dependencies. Install them using `apt`
+
+- libatk1.0-0t64
+- libatk-bridge2.0-0t64
+- libcups2t64
+- libasound2t64
+- libgbm1
+- libcairo2
+- libpango-1.0-0
+- libxcomposite1
+- libxdamage1
+- libxfixes3
+- libxrandr2
+
+Review how to configure a proper AppArmor profile for Chromium
+[on the official website](https://chromium.googlesource.com/chromium/src/+/main/docs/security/apparmor-userns-restrictions.md).
+
+The installer copies the Chromium AppArmor profile but does not activate it.
+Validate and reload AppArmor after installation:
+
+```bash
+sudo aa-load --dryrun /etc/apparmor.d/chrome-dev-builds
+sudo service apparmor reload
+```
+
+The Chromium executable is under the `codex` user's writable home directory.
+Code running as `codex` can replace that executable and obtain the profile's
+user-namespace exception. Treat this profile as a compatibility exception, not
+as a security boundary against the `codex` account.
